@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -41,4 +41,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * 出勤情報（1対多）
+     * ユーザーは複数の出勤データを持つ
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    /**
+     * 最新の出勤データ
+     */
+    public function latestAttendance()
+    {
+        return $this->hasOne(Attendance::class)->latestOfMany();
+    }
+
+    /**
+     * 指定日の出勤データ
+     */
+    public function attendanceOnDate($date)
+    {
+        return $this->attendances()
+            ->whereDate('start_time', $date)
+            ->first();
+    }
 }

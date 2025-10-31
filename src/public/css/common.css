@@ -1,0 +1,275 @@
+* {
+    font-family: Inter;
+}
+
+.error {
+    color: red;
+}
+
+.success-message {
+    position: relative;
+    top: 0;
+    background-color: #e6ffed;
+    color: #0a662e;
+    border: 1px solid #9fe0af;
+    border-radius: 6px;
+    padding: 12px 20px;
+    margin: 0 auto;
+    max-width: 1fr;
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    opacity: 0;
+    animation: successSlide 5s ease forwards;
+    /* 合計5秒：
+       1秒で降りる＋3秒表示＋1秒で上がって消える */
+}
+
+/* アニメーション定義 */
+@keyframes successSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* === ヘッダー：ベース（PC向け、適用は >768px 想定） === */
+.header {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    padding: 0 40px;
+    box-sizing: border-box;
+    background: black;
+    color: white;
+    height: 80px;
+    position: relative;
+    z-index: 1;
+    /* PC: ロゴ幅確保 + 検索は最小幅を持たせる（重なり防止） */
+    grid-template-columns: minmax(338px, 400px) minmax(280px, 1fr) minmax(220px, auto);
+    grid-template-areas: "logo search controls";
+}
+
+.header-left {
+    grid-area: logo;
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    grid-area: search;
+    display: flex;
+    justify-content: center;
+}
+
+.header-right {
+    grid-area: controls;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* ロゴ */
+.header-left img {
+    height: 36px;
+    display: block;
+}
+
+/* 検索フォーム */
+.search-form {
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-form input {
+    width: 100%;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    color: #000;
+}
+
+.search-form input::placeholder {
+    color: black;
+}
+
+/* PC用リンク群（表示） */
+.header-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-auth {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.sell-btn {
+    background: white;
+    color: black;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* ハンバーガー（通常は非表示） */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 4001;
+    /* 常に前面 */
+    position: relative;
+}
+
+/* ハンバーガーメニュー（ドロップダウン） */
+.header-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: black;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    gap: 8px;
+    z-index: 4000;
+    pointer-events: none;
+    /* 初期は無効 */
+}
+
+.header-menu.active {
+    display: flex;
+    pointer-events: auto;
+}
+
+/* === タブレット（<=1024px） ===
+   - 1行： ロゴ | 検索 | ☰
+   - header-links を隠して hamburger を表示
+*/
+@media (max-width: 1024px) {
+    .header {
+        grid-template-columns: minmax(300px, 350px) 1fr auto;
+        grid-template-areas: "logo search controls";
+        padding: 8px 20px;
+        height: 64px;
+    }
+
+    .header-left img {
+        height: 32px;
+    }
+
+    /* 検索幅は控えめにして重なりを回避 */
+    .header-center {
+        justify-content: flex-start;
+    }
+
+    .search-form {
+        width: 100%;
+        max-width: 500px;
+        min-width: 240px;
+    }
+
+    .search-form input {
+        height: 36px;
+        font-size: 15px;
+    }
+
+    /* 表示切替 */
+    .header-links {
+        display: none;
+    }
+
+    /* PCの横並びリンクは非表示 */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* ハンバーガー表示 */
+
+    /* メニュー位置（タブレットは右上） */
+    .header-menu {
+        top: 64px;
+        right: 20px;
+    }
+}
+
+/* === スマホ（<=425px） ===
+   - 1行目: ロゴ (left) + ☰ (right)
+   - 2行目: 検索フォーム（幅100%）
+*/
+@media (max-width: 425px) {
+    .header {
+        padding: 8px 12px;
+        gap: 8px;
+        height: auto;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "logo controls"
+            "search search";
+    }
+
+    .header-left img {
+        height: 28px;
+    }
+
+    .header-center {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .search-form {
+        width: 100%;
+        max-width: none;
+    }
+
+    .search-form input {
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .header-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    /* スマホではメニューを検索の下に出す（被らないよう） */
+    .header-menu {
+        top: calc(100% + 8px);
+        right: 12px;
+    }
+}

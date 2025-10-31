@@ -1,0 +1,48 @@
+.manual-verify-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    background-color: #fff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.manual-verify-wrapper {
+    text-align: center;
+    width: 400px;
+}
+
+.manual-verify-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+.manual-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.manual-submit {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.manual-submit:hover {
+    background-color: #ccc;
+}
+
+.error-message {
+    margin-top: 15px;
+    color: red;
+    font-size: 14px;
+}
