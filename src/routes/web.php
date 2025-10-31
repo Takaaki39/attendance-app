@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +23,11 @@ Route::get('/login', function () {
 })->middleware('guest')->name('login');
 
 Route::middleware(['auth:web', 'verified'])->group(function () {
-    Route::get('/attendance', function () {
-        return view('attendance.index');
-    })->name('attendance.index');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance/start', [AttendanceController::class, 'start'])->name('attendance.start');
+    Route::post('/attendance/end', [AttendanceController::class, 'end'])->name('attendance.end');
+    Route::post('/attendance/restStart', [AttendanceController::class, 'restStart'])->name('attendance.restStart');
+    Route::post('/attendance/restEnd', [AttendanceController::class, 'restEnd'])->name('attendance.restEnd');
 
     Route::post('/logout', function () {
         Auth::logout();

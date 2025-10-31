@@ -1,0 +1,120 @@
+.container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 30px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-left: 5px solid #000;
+    padding-left: 12px;
+    margin-bottom: 30px;
+}
+
+/* ===== 日付ナビカード ===== */
+.date-container {
+    background-color: #fff;
+    /* ← 白に変更 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== 前日／翌日ボタン ===== */
+.nav-btn {
+    background: #fff;
+    border: none;
+    /* ← 枠線削除 */
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.nav-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-btn:active {
+    transform: scale(0.97);
+}
+
+/* ===== 日付入力 ===== */
+.date-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.date-picker input[type="date"] {
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    text-align: center;
+    width: 180px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* ===== 勤怠テーブル ===== */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table th {
+    background-color: #f9f9f9;
+    font-weight: 700;
+}
+
+.attendance-table tr:last-child td {
+    border-bottom: none;
+}
+
+.attendance-table a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.attendance-table a:hover {
+    text-decoration: underline;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .date-container {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .date-picker input[type="date"] {
+        width: 100%;
+    }
+}
