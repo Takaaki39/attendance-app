@@ -1,0 +1,184 @@
+.attendance-detail-container {
+    background-color: #f3f2f4;
+    min-height: 100vh;
+    padding: 60px 0;
+}
+
+.content-wrapper {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.page-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-left: 14px;
+    border-left: 5px solid #000;
+}
+
+/* カード */
+.detail-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+/* テーブル */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0 10px;
+    font-size: 15px;
+    table-layout: fixed;
+}
+
+.detail-table tr {
+    position: relative;
+}
+
+.detail-table tr::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #E1E1E1;
+}
+
+/* 最後の行だけは下線を消す */
+.detail-table tr:last-child::after {
+    display: none;
+}
+
+/* th, td 共通 */
+.detail-table th,
+.detail-table td {
+    vertical-align: middle;
+    padding: 30px 16px;
+    font-size: 14px;
+}
+
+/* th */
+.detail-table th {
+    width: 35%;
+    min-width: 180px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    padding-left: 50px;
+}
+
+/* td：セル自体は中央寄せだが中身は左寄せ */
+.detail-table td {
+    width: 65%;
+    max-width: 720px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.detail-table td>div {
+    width: 100%;
+    /* ここを100%にして textarea と同じ幅にする */
+    max-width: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* 左のinputは左寄せ、右のinputは右寄せ */
+    gap: 12px;
+}
+
+/* 日付用：出勤退勤と同じ左右位置で揃える */
+.date-row {
+    width: 100%;
+    max-width: 720px;
+    /* 出勤退勤と同じ幅 */
+    display: flex;
+    justify-content: space-between;
+    /* 左右端に配置 */
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.date-left,
+.date-right {
+    padding: 0 35px;
+    display: inline-block;
+}
+
+/* 時間入力欄 */
+.detail-table input[type="text"] {
+    width: 120px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* 「〜」 */
+.wave {
+    margin: 0 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 備考欄 */
+.detail-table textarea {
+    width: 100%;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    resize: none;
+}
+
+/* ボタン */
+.btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.btn-submit {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #222;
+}
+
+/* レスポンシブ */
+@media (max-width: 950px) {
+    .content-wrapper {
+        width: 95%;
+    }
+
+    .detail-card {
+        padding: 20px;
+    }
+
+    .detail-table td {
+        justify-content: flex-start;
+        /* モバイルでは左寄せに戻す */
+    }
+
+    .detail-table td>div {
+        max-width: 100%;
+    }
+}

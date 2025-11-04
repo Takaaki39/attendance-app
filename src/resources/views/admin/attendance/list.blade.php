@@ -10,11 +10,12 @@
     <h1 class="title">2023年6月1日の勤怠</h1>
 
     <div class="date-container">
-        <button id="prevDay" class="nav-btn">← 前日</button>
+        <a class="nav-btn" href="?date={{ $date->copy()->subDay()->toDateString() }}">← 前日</a>
         <div class="date-picker">
-            <input type="date" id="currentDate" value="2023-06-01">
+            <img src="{{ asset('storage/images/calender.png') }}" alt="カレンダー" class="calendar-icon">
+            <input type="date" id="currentDate" value="{{$date->format('Y-m-d')}}">
         </div>
-        <button id="nextDay" class="nav-btn">翌日 →</button>
+        <a class="nav-btn" href="?date={{ $date->copy()->addDay()->toDateString() }}">翌日 →</a>
     </div>
 
     <table class="attendance-table">
@@ -29,54 +30,16 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($attendances as $attendance)
             <tr>
-                <td>山田 太郎</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
+                <td>{{$attendance->user->name}}</td>
+                <td>{{$attendance->start_time?->format('H:i')}}</td>
+                <td>{{$attendance->end_time?->format('H:i')}}</td>
+                <td>{{$attendance->total_rest_time }}</td>
+                <td>{{$attendance->total_work_time }}</td>
+                <td><a href="{{route('admin.attendance.detail', ['id' => $attendance->id])}}">詳細</a></td>
             </tr>
-            <tr>
-                <td>西 伶奈</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
-            </tr>
-            <tr>
-                <td>増田 一世</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
-            </tr>
-            <tr>
-                <td>山本 敬吉</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
-            </tr>
-            <tr>
-                <td>秋田 朋美</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
-            </tr>
-            <tr>
-                <td>中西 教夫</td>
-                <td>09:00</td>
-                <td>18:00</td>
-                <td>1:00</td>
-                <td>8:00</td>
-                <td><a href="#">詳細</a></td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 </main>

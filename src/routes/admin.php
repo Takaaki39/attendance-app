@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,17 +8,16 @@ use Illuminate\Support\Facades\Route;
 // 管理者ログインページ（未ログインでもアクセス可）
 // ---------------------------------------------------
 Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminController::class, 'loginView'])->name('admin.login');
-    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.post');
+    Route::get('/login', [AdminAuthController::class, 'loginView'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
 });
 
 // ---------------------------------------------------
 // 管理者ログイン後ページ（ログイン必須）
 // ---------------------------------------------------
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
-    Route::get('/attendance/list', function () {
-        return view('admin.attendance.list');
-    })->name('admin.attendance.list');
+    Route::get('/attendance/list', [AdminController::class, 'list'])->name('admin.attendance.list');
+    Route::get('/attendance/{id}', [AdminController::class, 'detail'])->name('admin.attendance.detail');
 
     // ここに管理者専用ページを追加していく
     Route::get('/users', function () {
@@ -25,5 +25,5 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     })->name('admin.users');
 
 
-    Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });

@@ -27,6 +27,7 @@
 
 /* ===== 前日／翌日ボタン ===== */
 .nav-btn {
+    color: #000;
     background: #fff;
     border: none;
     /* ← 枠線削除 */
@@ -35,6 +36,7 @@
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
+    text-decoration: none;
     transition: background 0.2s, transform 0.1s;
 }
 
@@ -47,6 +49,11 @@
 }
 
 /* ===== 日付入力 ===== */
+.calendar-icon {
+    width: 25px;
+    height: 25px;
+}
+
 .date-picker {
     display: flex;
     align-items: center;
@@ -55,15 +62,24 @@
 }
 
 .date-picker input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background-color: #fff;
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 0.95rem;
+    padding: 10px 10px;
+    font-size: 20px;
+    font-weight: bold;
     text-align: center;
-    width: 180px;
+    width: 150px;
     cursor: pointer;
     outline: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
 }
 
 /* ===== 勤怠テーブル ===== */

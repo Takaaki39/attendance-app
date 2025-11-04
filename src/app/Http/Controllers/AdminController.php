@@ -2,33 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminLoginRequest;
+use App\Models\Attendance;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    //
-    public function loginView()
+    public function list(Request $request)
     {
-        return view('admin.login');
+        // URLやフォームから受け取った日付（なければ今日）
+        $date = $request->input('date')
+            ? Carbon::parse($request->input('date'))
+            : now();
+
+        $attendances = Attendance::whereDate('start_time', $date->toDateString())->get();
+
+        return view('admin.attendance.list', compact('date', 'attendances'));
     }
 
-    public function login(AdminLoginRequest $request)
+    public function detail()
     {
-        $credentials = $request->only('email', 'password');
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/admin/attendance/list');
-        }
-        return back();
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/admin/login');
+        return view('admin.attendance.detail');
     }
 }
