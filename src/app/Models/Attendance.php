@@ -43,7 +43,7 @@ class Attendance extends Model
     /**
      * 休憩（1対多）リレーション
      */
-    public function rest()
+    public function rests()
     {
         return $this->hasMany(AttendanceRest::class);
     }
@@ -63,7 +63,7 @@ class Attendance extends Model
     {
         $totalMinutes = 0;
 
-        foreach ($this->rest as $rest) {
+        foreach ($this->rests as $rest) {
             if ($rest->start_time && $rest->end_time) {
                 $totalMinutes += $rest->end_time->diffInMinutes($rest->start_time);
             }
@@ -81,13 +81,13 @@ class Attendance extends Model
     public function getTotalWorkTimeAttribute()
     {
         if (!$this->start_time || !$this->end_time) {
-            return '-';
+            return '';
         }
 
         $workMinutes = $this->end_time->diffInMinutes($this->start_time);
 
         // 休憩分を引く
-        foreach ($this->rest as $rest) {
+        foreach ($this->rests as $rest) {
             if ($rest->start_time && $rest->end_time) {
                 $workMinutes -= $rest->end_time->diffInMinutes($rest->start_time);
             }

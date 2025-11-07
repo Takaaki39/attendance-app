@@ -19,8 +19,14 @@ class CreateAttendanceRequestsTable extends Migration
                 ->constrained('attendances') // attendances(id) を参照
                 ->onDelete('cascade'); // 出勤データ削除時に関連申請も削除
 
+            $table->foreignId('user_id')
+                ->constrained('users') // users(id) を参照
+                ->onDelete('cascade');
+
+            $table->timestamp('start_time');
+            $table->timestamp('end_time');
             $table->tinyInteger('state')->unsigned(); // 状態（例: 1=申請中, 2=承認, 3=却下）
-            $table->string('notes', 1024)->nullable(); // 備考（任意）
+            $table->string('notes', 1024); // 備考
             $table->timestamp('request_date'); // 申請日時（NOT NULL）
             $table->timestamps();
         });

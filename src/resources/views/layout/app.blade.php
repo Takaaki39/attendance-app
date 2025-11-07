@@ -32,6 +32,7 @@
     @if (session('success'))
     <div class="success-message">
         {{ session('success') }}
+        {{ session('error') }}
     </div>
     @endif
 

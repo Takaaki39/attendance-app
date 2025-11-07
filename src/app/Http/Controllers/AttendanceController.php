@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApplicationRequest;
 use App\Models\Attendance;
+use App\Models\AttendanceRequest;
 use App\Models\AttendanceRest;
+use App\Models\AttendanceRestRequest;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -47,7 +53,7 @@ class AttendanceController extends Controller
         return view('attendance.index', compact('attendance', 'status', 'resting'));
     }
 
-    public function start(Request $request)
+    public function start()
     {
         Attendance::create([
             'user_id' => Auth::id(),
@@ -57,7 +63,7 @@ class AttendanceController extends Controller
         return redirect()->route('attendance.index')->with('status', '出勤しました');
     }
 
-    public function end(Request $request)
+    public function end()
     {
         $attendance = Attendance::where('user_id', Auth::id())
             ->whereNull('end_time')
@@ -71,7 +77,7 @@ class AttendanceController extends Controller
         return redirect()->route('attendance.index')->with('status', '退勤しました');
     }
 
-    public function restStart(Request $request)
+    public function restStart()
     {
         $attendance = Attendance::where('user_id', Auth::id())
             ->whereNull('end_time')
@@ -89,7 +95,7 @@ class AttendanceController extends Controller
     }
 
     // 休憩終了
-    public function restEnd(Request $request)
+    public function restEnd()
     {
         $rest = AttendanceRest::whereHas('attendance', function ($q) {
             $q->where('user_id', Auth::id())
@@ -104,5 +110,113 @@ class AttendanceController extends Controller
         }
 
         return redirect()->route('attendance.index')->with('status', '休憩終了');
+    }
+
+    public function list(Request $request)
+    {
+        $date = $request->input('date')
+            ? Carbon::parse($request->input('date'))
+            : now();
+
+        // 指定月の開始日と終了日を取得
+        $startOfMonth = $date->copy()->startOfMonth();
+        $endOfMonth = $date->copy()->endOfMonth();
+
+        // 1日〜月末までの CarbonPeriod オブジェクトを作成
+        $period = CarbonPeriod::create($startOfMonth, $endOfMonth);
+        $calender = collect($period)->map(fn($day) => $day);
+
+        $attendances = Attendance::where('user_id', Auth::id())
+            ->whereBetween('start_time', [$startOfMonth, $endOfMonth])
+            ->get()
+            ->keyBy(fn($a) => $a->start_time->format('Y-m-d'));
+
+        return view('attendance.list', compact('date', 'calender', 'attendances'));
+    }
+
+    public function detail($id)
+    {
+        $user = Auth::user();
+        $attendance = Attendance::where('id', $id)
+            ->where('user_id', $user->id)
+            ->firstOrFail();
+        $requestData = \App\Models\AttendanceRequest::where('attendance_id', $attendance->id)
+            ->latest()
+            ->first();
+
+        return view('attendance.detail', compact('user', 'attendance', 'requestData'));
+    }
+
+    public function request(ApplicationRequest $request)
+    {
+        DB::beginTransaction();
+
+        $user = Auth::user();
+        $attendance = Attendance::find($request->attendance_id);
+        $baseDate = $attendance->start_time->copy()->startOfDay();
+        $parseTime = function ($time) use ($baseDate) {
+            if (empty($time)) return null;
+            return Carbon::parse($baseDate->format('Y-m-d') . ' ' . $time)->setSeconds(0);
+        };
+
+        try {
+            // 出勤修正申請の作成
+            $attendanceRequest = AttendanceRequest::create([
+                'attendance_id' => $request->attendance_id,
+                'user_id'       => $user->id,
+                'start_time'    => $parseTime($request->start_time),
+                'end_time'      => $parseTime($request->end_time),
+                'state'         => 1, // 申請中
+                'notes'         => $request->notes ?? '',
+                'request_date'  => now(),
+            ]);
+
+            // ======== 既存の休憩修正申請の登録 ========
+            $restIds    = $request->input('rest_id', []);           // 既存休憩ID
+            $restStarts = $request->input('rest_start_time', []);   // 開始時間
+            $restEnds   = $request->input('rest_end_time', []);     // 終了時間
+
+            foreach ($restIds as $i => $restId) {
+                $start = $restStarts[$i] ?? null;
+                $end   = $restEnds[$i] ?? null;
+
+                // 既存の休憩は必ず入力必須（Validation 側で担保済み）
+                AttendanceRestRequest::create([
+                    'request_id' => $attendanceRequest->id,
+                    'rest_id'    => $restId,
+                    'start_time' => $parseTime($start),
+                    'end_time'   => $parseTime($end),
+                ]);
+            }
+
+            // ======== 新規追加（空欄を許可） ========
+            $newStart = $request->input('new_rest_start_time');
+            $newEnd   = $request->input('new_rest_end_time');
+
+            // どちらかが入力されている場合のみ登録（完全空でスキップ）
+            if ($newStart || $newEnd) {
+                AttendanceRestRequest::create([
+                    'request_id' => $attendanceRequest->id,
+                    'rest_id'    => null, // 新規休憩なので既存 ID なし
+                    'start_time' => $parseTime($newStart),
+                    'end_time'   => $parseTime($newEnd),
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('attendance.list')->with('success', '勤怠修正申請を送信しました。');
+        } catch (Exception $e) {
+            DB::rollBack();
+            dd($e);
+            report($e);
+            return back()->withErrors(['error' => '申請の送信に失敗しました。']);
+        }
+    }
+
+
+    public function requestList()
+    {
+        $requests = AttendanceRequest::with('user')->latest()->get();
+        return view('stamp_correction_request.list', compact('requests'));
     }
 }

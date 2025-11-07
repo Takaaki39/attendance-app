@@ -19,7 +19,7 @@ class AdminAuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/attendance/list');
+            return redirect()->route('admin.attendance.list');
         }
         return back();
     }

@@ -11,6 +11,17 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class AuthController extends Controller
 {
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
+
     public function auth(EmailVerificationRequest $request)
     {
         $request->fulfill(); // メールアドレス認証完了

@@ -7,7 +7,7 @@
 
 @section('content')
 <main class="container">
-    <h1 class="title">2023年6月1日の勤怠</h1>
+    <h1 class="title">{{$date->format('Y年m月d日')}}の勤怠</h1>
 
     <div class="date-container">
         <a class="nav-btn" href="?date={{ $date->copy()->subDay()->toDateString() }}">← 前日</a>

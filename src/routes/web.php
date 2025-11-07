@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Auth;
 // ---------------------------------------------------
 // 一般ユーザー用ログイン関連
 // ---------------------------------------------------
-Route::get('/login', function () {
-    return view('auth.login');
-})->middleware('guest')->name('login');
+Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 
 Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
@@ -29,10 +27,12 @@ Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::post('/attendance/restStart', [AttendanceController::class, 'restStart'])->name('attendance.restStart');
     Route::post('/attendance/restEnd', [AttendanceController::class, 'restEnd'])->name('attendance.restEnd');
 
-    Route::post('/logout', function () {
-        Auth::logout();
-        return redirect('/login');
-    })->name('logout');
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
+    Route::post('/attendance/request', [AttendanceController::class, 'request'])->name('attendance.request');
+    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'requestList'])->name('stamp_correction_request.list');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // ---------------------------------------------------

@@ -76,6 +76,7 @@
     width: 65%;
     max-width: 720px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     text-align: center;
 }
@@ -89,6 +90,10 @@
     justify-content: space-between;
     /* 左のinputは左寄せ、右のinputは右寄せ */
     gap: 12px;
+}
+
+.name {
+    padding: 0 30px;
 }
 
 /* 日付用：出勤退勤と同じ左右位置で揃える */
@@ -116,6 +121,19 @@
     width: 120px;
     height: 36px;
     border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.request-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 120px;
+    height: 36px;
     border-radius: 6px;
     text-align: center;
     font-weight: 700;

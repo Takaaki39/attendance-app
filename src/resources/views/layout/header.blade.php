@@ -4,9 +4,9 @@
     <div class="header-links">
         @if(Auth::check() && Auth::user()->hasVerifiedEmail())
         <!-- 一般ユーザー -->
-        <a class="header-auth" href="/mypage">勤怠</a>
-        <a class="header-auth" href="/mypage">勤怠一覧</a>
-        <a class="header-auth" href="/mypage">申請</a>
+        <a class="header-auth" href="/attendance">勤怠</a>
+        <a class="header-auth" href="/attendance/list">勤怠一覧</a>
+        <a class="header-auth" href="/stamp_correction_request/list">申請</a>
         <form class="header-btn" action="/logout" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
@@ -30,9 +30,9 @@
     <nav class="header-menu" id="header-menu" aria-hidden="true">
         @if(Auth::check() && Auth::user()->hasVerifiedEmail())
         <!-- 一般ユーザー -->
-        <a class="header-auth" href="/mypage">勤怠</a>
-        <a class="header-auth" href="/mypage">勤怠一覧</a>
-        <a class="header-auth" href="/mypage">申請</a>
+        <a class="header-auth" href="/attendance">勤怠</a>
+        <a class="header-auth" href="/attendance/list">勤怠一覧</a>
+        <a class="header-auth" href="/stamp_correction_request/list">申請</a>
         <form class="header-btn" action="/logout" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
