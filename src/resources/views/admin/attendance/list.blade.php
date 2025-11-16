@@ -18,7 +18,7 @@
         <a class="nav-btn" href="?date={{ $date->copy()->addDay()->toDateString() }}">翌日 →</a>
     </div>
 
-    <table class="attendance-table">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>名前</th>

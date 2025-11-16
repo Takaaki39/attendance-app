@@ -19,9 +19,10 @@ class CreateAttendancesTable extends Migration
                 ->constrained('users') // usersテーブルのidを参照
                 ->onDelete('cascade'); // ユーザー削除時に関連出勤データも削除
 
-            $table->string('notes', 1024)->nullable(); // 備考（任意）
-            $table->timestamp('start_time')->nullable(); // 出勤時刻
-            $table->timestamp('end_time')->nullable();   // 退勤時刻
+            $table->date('date');          // 日にち
+            $table->string('notes', 1024)->nullable();      // 備考（任意）
+            $table->timestamp('start_time')->nullable();    // 出勤時刻
+            $table->timestamp('end_time')->nullable();      // 退勤時刻
             $table->timestamps();
         });
     }

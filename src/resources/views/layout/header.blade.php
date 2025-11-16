@@ -13,9 +13,9 @@
         </form>
         @elseif(Auth::guard('admin')->check())
         <!-- 管理人 -->
-        <a class="header-auth" href="/mypage">勤怠一覧</a>
-        <a class="header-auth" href="/mypage">スタッフ一覧</a>
-        <a class="header-auth" href="/mypage">申請一覧</a>
+        <a class="header-auth" href="/admin/attendance/list">勤怠一覧</a>
+        <a class="header-auth" href="/admin/staff/list">スタッフ一覧</a>
+        <a class="header-auth" href="/admin/stamp_correction_request/list">申請一覧</a>
         <form class="header-btn" action="{{ route('admin.logout') }}" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
@@ -39,9 +39,9 @@
         </form>
         @elseif(Auth::guard('admin')->check())
         <!-- 管理人 -->
-        <a class="header-auth" href="/mypage">勤怠一覧</a>
-        <a class="header-auth" href="/mypage">スタッフ一覧</a>
-        <a class="header-auth" href="/mypage">申請一覧</a>
+        <a class="header-auth" href="/admin/attendance/list">勤怠一覧</a>
+        <a class="header-auth" href="/admin/staff/list">スタッフ一覧</a>
+        <a class="header-auth" href="/admin/stamp_correction_request/list">申請一覧</a>
         <form class="header-btn" action="{{ route('admin.logout') }}" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>

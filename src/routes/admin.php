@@ -17,8 +17,13 @@ Route::prefix('admin')->group(function () {
 // ---------------------------------------------------
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/attendance/list', [AdminController::class, 'list'])->name('admin.attendance.list');
-    Route::get('/attendance/{id}', [AdminController::class, 'detail'])->name('admin.attendance.detail');
-
+    Route::get('/attendance/{id?}', [AdminController::class, 'detail'])->name('admin.attendance.detail');
+    Route::post('/attendance/request', [AdminController::class, 'requestFix'])->name('admin.attendance.request');
+    Route::post('/attendance/approval', [AdminController::class, 'approval'])->name('admin.attendance.approval');
+    Route::get('/staff/list', [AdminController::class, 'staffList'])->name('admin.staff.list');
+    Route::get('/attendance/staff/{id}', [AdminController::class, 'staff'])->name('admin.attendance.staff');
+    Route::post('/attendance/export-csv', [AdminController::class, 'exportCsv'])->name('admin.attendance.exportCsv');
+    Route::get('//stamp_correction_request/list', [AdminController::class, 'requestList'])->name('admin.stamp_correction_request.list');
     // ここに管理者専用ページを追加していく
     Route::get('/users', function () {
         return 'ユーザー管理ページ';

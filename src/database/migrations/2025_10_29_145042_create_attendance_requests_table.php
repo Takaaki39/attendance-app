@@ -16,8 +16,9 @@ class CreateAttendanceRequestsTable extends Migration
         Schema::create('attendance_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_id')
+                ->nullable()
                 ->constrained('attendances') // attendances(id) を参照
-                ->onDelete('cascade'); // 出勤データ削除時に関連申請も削除
+                ->nullOnDelete('cascade'); // 出勤データ削除時に関連申請も削除
 
             $table->foreignId('user_id')
                 ->constrained('users') // users(id) を参照

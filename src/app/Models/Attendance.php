@@ -19,6 +19,7 @@ class Attendance extends Model
      */
     protected $fillable = [
         'user_id',
+        'date',
         'notes',
         'start_time',
         'end_time',
@@ -28,8 +29,9 @@ class Attendance extends Model
      * 型キャスト
      */
     protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'date'          => 'date:Y-m-d',
+        'start_time'    => 'datetime',
+        'end_time'      => 'datetime',
     ];
 
     /**

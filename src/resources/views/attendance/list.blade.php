@@ -18,7 +18,7 @@
         <a class="nav-btn" href="?date={{ $date->copy()->addMonth()->toDateString() }}">翌月 →</a>
     </div>
 
-    <table class="attendance-table">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>日付</th>
@@ -43,9 +43,8 @@
                 @if($attendance)
                 <td><a href="{{route('attendance.detail', ['id' => $attendance?->id])}}">詳細</a></td>
                 @else
-                <td>詳細</td>
+                <td><a href="{{ route('attendance.detail', ['date' => $day->format('Y-m-d')]) }}">詳細</a></td>
                 @endif
-
             </tr>
             @endforeach
         </tbody>

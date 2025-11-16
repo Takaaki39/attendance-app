@@ -57,7 +57,8 @@ class AttendanceController extends Controller
     {
         Attendance::create([
             'user_id' => Auth::id(),
-            'start_time' => Carbon::now(),
+            'date'       => now()->toDateString(),
+            'start_time' => now(),
         ]);
 
         return redirect()->route('attendance.index')->with('status', '出勤しました');
@@ -134,15 +135,33 @@ class AttendanceController extends Controller
         return view('attendance.list', compact('date', 'calender', 'attendances'));
     }
 
-    public function detail($id)
+    public function detail(Request $request, $id = null)
     {
         $user = Auth::user();
-        $attendance = Attendance::where('id', $id)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
-        $requestData = \App\Models\AttendanceRequest::where('attendance_id', $attendance->id)
-            ->latest()
-            ->first();
+        if ($id) {
+            $attendance = Attendance::where('id', $id)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+            $requestData = AttendanceRequest::where('attendance_id', $attendance->id)
+                ->latest()
+                ->first();
+        } else if ($request->request_id) {
+            $attendance = null;
+            $requestData = AttendanceRequest::where('id', $request->request_id)
+                ->latest()
+                ->first();
+        } else {
+            $attendance = new Attendance();
+            $attendance->user_id = $user->id;
+            $attendance->date = Carbon::parse($request->date)->startOfDay();
+            $attendance->end_time   = null; // まだ未打刻なので
+            $attendance->id = null;
+            $requestData = AttendanceRequest::where('user_id', $user->id)
+                ->whereDate('start_time', $attendance->date) // 日付比較
+                ->where('state', 1) // 申請中
+                ->latest()
+                ->first();
+        }
 
         return view('attendance.detail', compact('user', 'attendance', 'requestData'));
     }
@@ -152,8 +171,10 @@ class AttendanceController extends Controller
         DB::beginTransaction();
 
         $user = Auth::user();
-        $attendance = Attendance::find($request->attendance_id);
-        $baseDate = $attendance->start_time->copy()->startOfDay();
+        $year = intval(str_replace('年', '', $request->year)); // 2025年 → 2025
+        $day  = str_replace(['月', '日'], ['-', ''], $request->day); // 3月12日 → 3-12
+        $baseDate = Carbon::parse($year . '-' . $day)->startOfDay();
+
         $parseTime = function ($time) use ($baseDate) {
             if (empty($time)) return null;
             return Carbon::parse($baseDate->format('Y-m-d') . ' ' . $time)->setSeconds(0);
@@ -162,7 +183,7 @@ class AttendanceController extends Controller
         try {
             // 出勤修正申請の作成
             $attendanceRequest = AttendanceRequest::create([
-                'attendance_id' => $request->attendance_id,
+                'attendance_id' => $request->attendance_id ?: null,
                 'user_id'       => $user->id,
                 'start_time'    => $parseTime($request->start_time),
                 'end_time'      => $parseTime($request->end_time),

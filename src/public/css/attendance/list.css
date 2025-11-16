@@ -82,9 +82,20 @@ input::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
 
+.table-wrapper {
+    max-width: 1000px;
+    /* .data-table と同じ最大幅 */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* ボタンを右端揃え */
+}
+
 /* ===== 勤怠テーブル ===== */
-.attendance-table {
+.data-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     background-color: white;
     border-radius: 10px;
@@ -92,30 +103,59 @@ input::-webkit-calendar-picker-indicator {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-.attendance-table th,
-.attendance-table td {
-    padding: 14px 16px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
+.limited-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.attendance-table th {
+.data-table th,
+.data-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    padding-left: 5%;
+}
+
+.data-table th {
     background-color: #f9f9f9;
     font-weight: 700;
 }
 
-.attendance-table tr:last-child td {
+.data-table tr:last-child td {
     border-bottom: none;
 }
 
-.attendance-table a {
+.data-table a {
     color: #000;
     text-decoration: none;
     font-weight: 600;
 }
 
-.attendance-table a:hover {
+.data-table a:hover {
     text-decoration: underline;
+}
+
+.output-button {
+    width: 184px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #000;
+    /* 任意で変更 */
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+
+    margin-left: auto;
+    /* 右寄せ */
+    margin-top: 12px;
+    /* テーブルとの間隔 */
 }
 
 /* ===== レスポンシブ ===== */
