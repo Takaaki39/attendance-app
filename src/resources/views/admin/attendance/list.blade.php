@@ -30,14 +30,24 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($attendances as $attendance)
+            @foreach($users as $user)
+            @php
+            // 指定日の勤怠を取得
+            $attendance = $user->attendanceOnDate($date);
+            @endphp
             <tr>
-                <td>{{$attendance->user->name}}</td>
-                <td>{{$attendance->start_time?->format('H:i')}}</td>
-                <td>{{$attendance->end_time?->format('H:i')}}</td>
-                <td>{{$attendance->total_rest_time }}</td>
-                <td>{{$attendance->total_work_time }}</td>
-                <td><a href="{{route('admin.attendance.detail', ['id' => $attendance->id])}}">詳細</a></td>
+                <td>{{$user->name}}</td>
+                <td>{{$attendance?->start_time?->format('H:i')}}</td>
+                <td>{{$attendance?->end_time?->format('H:i')}}</td>
+                <td>{{$attendance?->total_rest_time }}</td>
+                <td>{{$attendance?->total_work_time }}</td>
+                <td>
+                    @if($attendance)
+                    <a href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
+                    @else
+                    <a href="{{ route('admin.attendance.detail', ['user_id' => $user->id]) }}">詳細</a>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

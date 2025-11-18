@@ -21,9 +21,9 @@ class AdminController extends Controller
             ? Carbon::parse($request->input('date'))
             : now();
 
-        $attendances = Attendance::whereDate('start_time', $date->toDateString())->get();
+        $users = User::all();
 
-        return view('admin.attendance.list', compact('date', 'attendances'));
+        return view('admin.attendance.list', compact('date', 'users'));
     }
 
     public function detail(Request $request, $id = null)
@@ -69,6 +69,17 @@ class AdminController extends Controller
             if (empty($time)) return null;
             return Carbon::parse($baseDate->format('Y-m-d') . ' ' . $time)->setSeconds(0);
         };
+
+        // attendance が無い場合は新規作成
+        if (!$attendance) {
+            $attendance = Attendance::create([
+                'user_id' => $request->user_id,
+                'date'    => $baseDate->format('Y-m-d'),
+                'start_time' => null,
+                'end_time'   => null,
+                'notes'      => null,
+            ]);
+        }
 
         $attendance->start_time = $parseTime($request->start_time);
         $attendance->end_time = $parseTime($request->end_time);
