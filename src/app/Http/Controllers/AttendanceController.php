@@ -237,7 +237,10 @@ class AttendanceController extends Controller
 
     public function requestList()
     {
-        $requests = AttendanceRequest::with('user')->latest()->get();
+        $requests = AttendanceRequest::with('user')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
         return view('stamp_correction_request.list', compact('requests'));
     }
 }
