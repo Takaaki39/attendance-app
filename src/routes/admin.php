@@ -23,12 +23,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/staff/list', [AdminController::class, 'staffList'])->name('admin.staff.list');
     Route::get('/attendance/staff/{id}', [AdminController::class, 'staff'])->name('admin.attendance.staff');
     Route::post('/attendance/export-csv', [AdminController::class, 'exportCsv'])->name('admin.attendance.exportCsv');
-    Route::get('//stamp_correction_request/list', [AdminController::class, 'requestList'])->name('admin.stamp_correction_request.list');
-    // ここに管理者専用ページを追加していく
-    Route::get('/users', function () {
-        return 'ユーザー管理ページ';
-    })->name('admin.users');
-
+    Route::get('/stamp_correction_request/list', [AdminController::class, 'requestList'])->name('admin.stamp_correction_request.list');
 
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });

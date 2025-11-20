@@ -55,29 +55,29 @@ class ApplicationRequest extends FormRequest
     {
         return [
             // 日にち
-            'year.required' => '年は必須です。',
-            'day.required' => '日にちは必須です。',
+            'year.required' => '年は必須です',
+            'day.required' => '日にちは必須です',
 
             // 出勤・退勤
-            'start_time.required' => '出勤時間は必須です。',
-            'start_time.regex' => '出勤時間は時間形式で入力してください。',
-            'end_time.required' => '退勤時間は必須です。',
-            'end_time.regex' => '退勤時間は時間形式で入力してください。',
+            'start_time.required' => '出勤時間は必須です',
+            'start_time.regex' => '出勤時間は時間形式で入力してください',
+            'end_time.required' => '退勤時間は必須です',
+            'end_time.regex' => '退勤時間は時間形式で入力してください',
 
             // 休憩（配列）
-            'rest_start_time.required' => '休憩開始時間は必須です。',
-            'rest_start_time.*.required' => '休憩開始時間は必須です。',
-            'rest_start_time.*.regex' => '休憩開始時間は時間形式で入力してください。',
-            'rest_end_time.required' => '休憩終了時間は必須です。',
-            'rest_end_time.*.required' => '休憩終了時間は必須です。',
-            'rest_end_time.*.regex' => '休憩終了時間は時間形式で入力してください.',
+            'rest_start_time.required' => '休憩開始時間は必須です',
+            'rest_start_time.*.required' => '休憩開始時間は必須です',
+            'rest_start_time.*.regex' => '休憩開始時間は時間形式で入力してください',
+            'rest_end_time.required' => '休憩終了時間は必須です',
+            'rest_end_time.*.required' => '休憩終了時間は必須です',
+            'rest_end_time.*.regex' => '休憩終了時間は時間形式で入力してください',
 
             // 新規休憩（）
-            'new_rest_start_time.regex' => '休憩開始時間は時間形式で入力してください。',
-            'new_rest_end_time.regex' => '休憩終了時間は時間形式で入力してください.',
+            'new_rest_start_time.regex' => '休憩開始時間は時間形式で入力してください',
+            'new_rest_end_time.regex' => '休憩終了時間は時間形式で入力してください',
 
             // 備考
-            'notes.required' => '備考を記入してください。',
+            'notes.required' => '備考を記入してください',
         ];
     }
 
