@@ -33,14 +33,14 @@ class ApplicationRequest extends FormRequest
             'day' => ['required'],
 
             // 出勤・退勤
-            'start_time' => ['required', $timeRegex],
-            'end_time'   => ['required', $timeRegex],
+            'start_time' => ['nullable', $timeRegex],
+            'end_time'   => ['nullable', $timeRegex],
 
             // 休憩（配列）
             'rest_start_time'   => ['array'],
-            'rest_start_time.*' => ['required', $timeRegex],
+            'rest_start_time.*' => [$timeRegex],
             'rest_end_time'     => ['array'],
-            'rest_end_time.*'   => ['required', $timeRegex],
+            'rest_end_time.*'   => [$timeRegex],
 
             // 新規休憩（未入力OK）
             'new_rest_start_time' => ['nullable', $timeRegex],
@@ -59,17 +59,11 @@ class ApplicationRequest extends FormRequest
             'day.required' => '日にちは必須です',
 
             // 出勤・退勤
-            'start_time.required' => '出勤時間は必須です',
             'start_time.regex' => '出勤時間は時間形式で入力してください',
-            'end_time.required' => '退勤時間は必須です',
             'end_time.regex' => '退勤時間は時間形式で入力してください',
 
             // 休憩（配列）
-            'rest_start_time.required' => '休憩開始時間は必須です',
-            'rest_start_time.*.required' => '休憩開始時間は必須です',
             'rest_start_time.*.regex' => '休憩開始時間は時間形式で入力してください',
-            'rest_end_time.required' => '休憩終了時間は必須です',
-            'rest_end_time.*.required' => '休憩終了時間は必須です',
             'rest_end_time.*.regex' => '休憩終了時間は時間形式で入力してください',
 
             // 新規休憩（）
@@ -90,6 +84,10 @@ class ApplicationRequest extends FormRequest
                 $end   = Carbon::parse($this->end_time);
             } catch (Exception $e) {
                 return; // パース不可能なら他のエラーで引っかかっているので無視
+            }
+
+            if ($this->end_time != null && $this->start_time == null) {
+                $validator->errors()->add('start_time', '出勤時間が不適切な値です');
             }
 
             // ===== 出勤・退勤 =====

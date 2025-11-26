@@ -40,6 +40,10 @@ class AttendanceSeeder extends Seeder
                 // 退勤は 出勤 + 6〜12 時間の間でランダム
                 $workHours = rand(6, 12);
                 $endTime   = $startTime->copy()->addHours($workHours)->addMinutes(rand(0, 59));
+                $endOfDay = $date->copy()->setTime(23, 59);
+                if ($endTime->greaterThan($endOfDay)) {
+                    $endTime = $endOfDay;
+                }
 
                 // 出勤データ作成
                 $attendance = Attendance::create([

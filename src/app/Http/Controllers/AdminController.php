@@ -35,6 +35,9 @@ class AdminController extends Controller
             $requestData = AttendanceRequest::where('attendance_id', $attendance->id)
                 ->latest()
                 ->first();
+            if ($requestData != null && $requestData->state == 2) {
+                $requestData = null;
+            }
             $user = User::find($attendance->user_id);
         } else if ($reqId) {
             $requestData = AttendanceRequest::find($reqId);

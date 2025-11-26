@@ -14,7 +14,7 @@ class LoginTest extends TestCase
     /**
      * 一般ユーザー：メールアドレス未入力
      */
-    public function test_user_login_email_required()
+    public function testUserLoginEmailRequired()
     {
         $user = User::factory()->create([
             'password' => bcrypt('password123'),
@@ -33,7 +33,7 @@ class LoginTest extends TestCase
     /**
      * 一般ユーザー：パスワード未入力
      */
-    public function test_user_login_password_required()
+    public function testUserLoginPasswordRequired()
     {
         $user = User::factory()->create([
             'password' => bcrypt('password123'),
@@ -52,7 +52,7 @@ class LoginTest extends TestCase
     /**
      * 一般ユーザー：登録情報と一致しない
      */
-    public function test_user_login_invalid_credentials()
+    public function testUserLoginInvalidCredentials()
     {
         $user = User::factory()->create([
             'password' => bcrypt('password123'),
@@ -76,7 +76,7 @@ class LoginTest extends TestCase
     /**
      * 管理者：メールアドレス未入力
      */
-    public function test_admin_login_email_required()
+    public function testAdminLoginEmailRequired()
     {
         $response = $this->post('/admin/login', [
             'email' => '',
@@ -91,7 +91,7 @@ class LoginTest extends TestCase
     /**
      * 管理者：パスワード未入力
      */
-    public function test_admin_login_password_required()
+    public function testAdminLoginPasswordRequired()
     {
         $admin = Admin::factory()->create([
             'password' => bcrypt('password123'),
@@ -110,7 +110,7 @@ class LoginTest extends TestCase
     /**
      * 管理者：登録情報と一致しない
      */
-    public function test_admin_login_invalid_credentials()
+    public function testAdminLoginInvalidCredentials()
     {
         $admin = Admin::factory()->create([
             'password' => bcrypt('password123'),

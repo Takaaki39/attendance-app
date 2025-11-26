@@ -12,7 +12,7 @@ class RegisterTest extends TestCase
     /**
      * 名前未入力 → バリデーションメッセージ
      */
-    public function test_name_is_required()
+    public function testNameIsRequired()
     {
         $response = $this->post('/register', [
             'name' => '',
@@ -29,7 +29,7 @@ class RegisterTest extends TestCase
     /**
      * メールアドレス未入力 → バリデーションメッセージ
      */
-    public function test_email_is_required()
+    public function testEmailIsRequired()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -46,7 +46,7 @@ class RegisterTest extends TestCase
     /**
      * パスワードが8文字未満 → バリデーションメッセージ
      */
-    public function test_password_min_length()
+    public function testPasswordMinLength()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -63,7 +63,7 @@ class RegisterTest extends TestCase
     /**
      * パスワード不一致 → バリデーションメッセージ
      */
-    public function test_password_confirmation_mismatch()
+    public function testPasswordConfirmationMismatch()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -80,7 +80,7 @@ class RegisterTest extends TestCase
     /**
      * パスワード未入力 → バリデーションメッセージ
      */
-    public function test_password_is_required()
+    public function testPasswordIsRequired()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -97,7 +97,7 @@ class RegisterTest extends TestCase
     /**
      * 正しい入力でユーザーが保存される
      */
-    public function test_user_is_created_successfully()
+    public function testUserIsCreatedSuccessfully()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',

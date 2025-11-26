@@ -27,30 +27,7 @@ class AttendanceController extends Controller
             ->latest('start_time')
             ->first();
 
-        $status = '勤務外';
-        $resting = false;
-
-        if ($attendance) {
-            if ($attendance->end_time) {
-                $status = '退勤済';
-            } else {
-                // 出勤中（退勤していない）
-                $status = '出勤中';
-
-                // 現在進行中の休憩があるか確認
-                $rest = AttendanceRest::where('attendance_id', $attendance->id)
-                    ->whereNull('end_time')
-                    ->latest('start_time')
-                    ->first();
-
-                if ($rest) {
-                    $status = '休憩中';
-                    $resting = true;
-                }
-            }
-        }
-
-        return view('attendance.index', compact('attendance', 'status', 'resting'));
+        return view('attendance.index', compact('attendance'));
     }
 
     public function start()
@@ -145,6 +122,9 @@ class AttendanceController extends Controller
             $requestData = AttendanceRequest::where('attendance_id', $attendance->id)
                 ->latest()
                 ->first();
+            if ($requestData != null && $requestData->state == 2) {
+                $requestData = null;
+            }
         } else if ($request->request_id) {
             $attendance = null;
             $requestData = AttendanceRequest::where('id', $request->request_id)

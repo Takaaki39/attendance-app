@@ -33,7 +33,7 @@
                 <td>{{ $request->start_time->format('Y/m/d') }}</td>
                 <td class="limited-cell">{{ $request->notes }}</td>
                 <td>{{ $request->request_date->format('Y/m/d') }}</td>
-                <td><a href="{{route('admin.attendance.detail', ['request_id' => $request->id, 'id' => $request->attendance_id])}}">詳細</a></td>
+                <td><a href="{{route('admin.attendance.detail', ['request_id' => $request->id])}}">詳細</a></td>
             </tr>
             @endforeach
         </tbody>

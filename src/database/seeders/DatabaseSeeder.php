@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             AdminTableSeeder::class,
             UserTableSeeder::class,
             AttendanceSeeder::class,
+            AttendanceRequestSeeder::class,
         ]);
     }
 }

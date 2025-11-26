@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,11 @@ class Attendance extends Model
         'date'          => 'date:Y-m-d',
         'start_time'    => 'datetime',
         'end_time'      => 'datetime',
+    ];
+
+    protected $appends = [
+        'status',
+        'status_label',
     ];
 
     /**
@@ -99,5 +105,55 @@ class Attendance extends Model
         $minutes = $workMinutes % 60;
 
         return sprintf('%02d:%02d', $hours, $minutes);
+    }
+
+    /**
+     * ステータス判定アクセサ
+     * - 勤務外
+     * - 勤務中
+     * - 休憩中
+     * - 退勤済
+     */
+    public function getStatusAttribute()
+    {
+        // まず今日の出勤かどうか判定
+        if (!$this->start_time || !Carbon::parse($this->start_time)->isToday()) {
+            return 0;
+        }
+
+        // 退勤済み
+        if ($this->end_time) {
+            return 3;
+        }
+
+        // 休憩中かどうか
+        $ongoingRest = $this->rests()
+            ->whereNull('end_time')
+            ->latest('start_time')
+            ->first();
+
+        if ($ongoingRest) {
+            return 2;
+        }
+
+        // 上記以外 → 勤務中
+        return 1;
+    }
+
+    /**
+     * ステータスラベル（status と同じ）
+     */
+    public function getStatusLabelAttribute()
+    {
+        switch ($this->status) {
+            case 0:
+                return '勤務外';
+            case 1:
+                return '勤務中';
+            case 2:
+                return '休憩中';
+            case 3:
+                return '退勤済';
+        }
     }
 }
