@@ -1,7 +1,7 @@
 ## 環境構築
 Dockerビルド
 1. git clone https://github.com/Takaaki39/attendance-app.git
-2. cd fleamarket-app/
+2. cd attendance-app/
 3. docker-compose up -d --build
 
 ※エラー(Error response from daemon: Conflict.)が出た場合はdocker-compose downなどしてコンフリクトしてるコンテナを削除して再度3.を実行してください。
