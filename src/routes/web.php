@@ -4,12 +4,16 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// ---------------------------------------------------
-// 一般ユーザー用ログイン関連
-// ---------------------------------------------------
 Route::get('/', function () {
     return redirect('/attendance');
 });
+Route::get('/admin', function () {
+    return redirect('/admin/attendance');
+});
+
+// ---------------------------------------------------
+// 一般ユーザー用ログイン関連
+// ---------------------------------------------------
 Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 
 Route::middleware(['auth:web', 'verified'])->group(function () {

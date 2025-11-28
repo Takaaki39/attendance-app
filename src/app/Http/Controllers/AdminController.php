@@ -227,7 +227,7 @@ class AdminController extends Controller
     public function requestList()
     {
         $requests = AttendanceRequest::with('user')->latest()->get();
-        return view('admin.stamp_correction_request.list', compact('requests'));
+        return view('admin.stamp-correction-request.list', compact('requests'));
     }
 
     public function approval(Request $request)
@@ -274,7 +274,7 @@ class AdminController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.attendance.detail', ['id' => $attendance->id])
+            ->route('admin.attendance.detail', ['request_id' => $requestData->id])
             ->with('success', '勤怠申請を承認しました。');
     }
 }

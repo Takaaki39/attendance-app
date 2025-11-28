@@ -61,7 +61,7 @@ class AttendanceTest extends TestCase
     }
 
     /**
-     * 勤務中ステータス表示
+     * 出勤中ステータス表示
      */
     public function testStatusStart()
     {
@@ -71,7 +71,7 @@ class AttendanceTest extends TestCase
             ->post(route('attendance.start'));
 
         $response->assertStatus(200);
-        $response->assertSee('勤務中');
+        $response->assertSee('出勤中');
     }
 
     /**
@@ -81,7 +81,7 @@ class AttendanceTest extends TestCase
     {
         $user = $this->actingAsVerifiedUser();
 
-        // 勤務中レコード
+        // 出勤中レコード
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
             'start_time'   => now(),
@@ -129,7 +129,7 @@ class AttendanceTest extends TestCase
         $response = $this->followingRedirects()->post('/attendance/start');
 
         $response->assertStatus(200);
-        $response->assertSee('勤務中');
+        $response->assertSee('出勤中');
     }
 
     /**
@@ -216,7 +216,7 @@ class AttendanceTest extends TestCase
     }
 
     /**
-     * 休憩戻ボタンが表示され、処理後にステータスが勤務中に戻ることを確認する
+     * 休憩戻ボタンが表示され、処理後にステータスが出勤中に戻ることを確認する
      */
     public function testUserCanEndBreak()
     {
@@ -231,7 +231,7 @@ class AttendanceTest extends TestCase
 
         // 休憩戻
         $response = $this->followingRedirects()->post('/attendance/rest-end');
-        $response->assertSee('勤務中');
+        $response->assertSee('出勤中');
     }
 
     /**

@@ -110,7 +110,7 @@ class Attendance extends Model
     /**
      * ステータス判定アクセサ
      * - 勤務外
-     * - 勤務中
+     * - 出勤中
      * - 休憩中
      * - 退勤済
      */
@@ -136,7 +136,7 @@ class Attendance extends Model
             return 2;
         }
 
-        // 上記以外 → 勤務中
+        // 上記以外 → 出勤中
         return 1;
     }
 
@@ -149,7 +149,7 @@ class Attendance extends Model
             case 0:
                 return '勤務外';
             case 1:
-                return '勤務中';
+                return '出勤中';
             case 2:
                 return '休憩中';
             case 3:

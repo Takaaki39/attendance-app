@@ -10,7 +10,7 @@
     font-family: "Noto Sans JP", sans-serif;
 }
 
-/* 状態ラベル（勤務外・勤務中など） */
+/* 状態ラベル（勤務外・出勤中など） */
 .status-label {
     background-color: #e4e4e4;
     color: #555;

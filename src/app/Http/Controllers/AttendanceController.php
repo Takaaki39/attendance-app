@@ -221,6 +221,6 @@ class AttendanceController extends Controller
             ->where('user_id', Auth::id())
             ->latest()
             ->get();
-        return view('stamp_correction_request.list', compact('requests'));
+        return view('stamp-correction-request.list', compact('requests'));
     }
 }
