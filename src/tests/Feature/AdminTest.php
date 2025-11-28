@@ -454,7 +454,7 @@ class AdminTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $response = $this->get('/admin/stamp_correction_request/list');
+        $response = $this->get('/admin/stamp-correction-request/list');
         $response->assertStatus(200);
 
         // HTML に承認待ち分が含まれていること
@@ -483,7 +483,7 @@ class AdminTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $response = $this->get('/admin/stamp_correction_request/list');
+        $response = $this->get('/admin/stamp-correction-request/list');
 
         $response->assertStatus(200);
 

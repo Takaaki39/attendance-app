@@ -26,7 +26,7 @@ class CreateAttendanceRequestsTable extends Migration
 
             $table->timestamp('start_time');
             $table->timestamp('end_time');
-            $table->tinyInteger('state')->unsigned(); // 状態（例: 1=申請中, 2=承認, 3=却下）
+            $table->tinyInteger('state')->unsigned(); // 状態（例: 1=申請中, 2=承認）
             $table->string('notes', 1024); // 備考
             $table->timestamp('request_date'); // 申請日時（NOT NULL）
             $table->timestamps();

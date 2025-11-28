@@ -6,7 +6,7 @@
         <!-- 一般ユーザー -->
         <a class="header-auth" href="/attendance">勤怠</a>
         <a class="header-auth" href="/attendance/list">勤怠一覧</a>
-        <a class="header-auth" href="/stamp_correction_request/list">申請</a>
+        <a class="header-auth" href="/stamp-correction-request/list">申請</a>
         <form class="header-btn" action="/logout" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
@@ -15,7 +15,7 @@
         <!-- 管理人 -->
         <a class="header-auth" href="/admin/attendance/list">勤怠一覧</a>
         <a class="header-auth" href="/admin/staff/list">スタッフ一覧</a>
-        <a class="header-auth" href="/admin/stamp_correction_request/list">申請一覧</a>
+        <a class="header-auth" href="/admin/stamp-correction-request/list">申請一覧</a>
         <form class="header-btn" action="{{ route('admin.logout') }}" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
@@ -32,7 +32,7 @@
         <!-- 一般ユーザー -->
         <a class="header-auth" href="/attendance">勤怠</a>
         <a class="header-auth" href="/attendance/list">勤怠一覧</a>
-        <a class="header-auth" href="/stamp_correction_request/list">申請</a>
+        <a class="header-auth" href="/stamp-correction-request/list">申請</a>
         <form class="header-btn" action="/logout" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>
@@ -41,7 +41,7 @@
         <!-- 管理人 -->
         <a class="header-auth" href="/admin/attendance/list">勤怠一覧</a>
         <a class="header-auth" href="/admin/staff/list">スタッフ一覧</a>
-        <a class="header-auth" href="/admin/stamp_correction_request/list">申請一覧</a>
+        <a class="header-auth" href="/admin/stamp-correction-request/list">申請一覧</a>
         <form class="header-btn" action="{{ route('admin.logout') }}" method="post">
             @csrf
             <button class="header-auth" type="submit">ログアウト</button>

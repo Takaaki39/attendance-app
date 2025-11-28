@@ -4,33 +4,25 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // ---------------------------------------------------
 // 一般ユーザー用ログイン関連
 // ---------------------------------------------------
+Route::get('/', function () {
+    return redirect('/attendance');
+});
 Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 
 Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance/start', [AttendanceController::class, 'start'])->name('attendance.start');
     Route::post('/attendance/end', [AttendanceController::class, 'end'])->name('attendance.end');
-    Route::post('/attendance/restStart', [AttendanceController::class, 'restStart'])->name('attendance.restStart');
-    Route::post('/attendance/restEnd', [AttendanceController::class, 'restEnd'])->name('attendance.restEnd');
+    Route::post('/attendance/rest-start', [AttendanceController::class, 'restStart'])->name('attendance.restStart');
+    Route::post('/attendance/rest-end', [AttendanceController::class, 'restEnd'])->name('attendance.restEnd');
 
     Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
     Route::get('/attendance/detail/{id?}', [AttendanceController::class, 'detail'])->name('attendance.detail');
     Route::post('/attendance/request', [AttendanceController::class, 'request'])->name('attendance.request');
-    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'requestList'])->name('stamp_correction_request.list');
+    Route::get('/stamp-correction-request/list', [AttendanceController::class, 'requestList'])->name('stamp_correction_request.list');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

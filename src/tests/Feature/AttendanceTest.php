@@ -190,7 +190,7 @@ class AttendanceTest extends TestCase
         $response = $this->followingRedirects()->post('/attendance/start');
         $response->assertSee('休憩入');
 
-        $response = $this->followingRedirects()->post('/attendance/restStart');
+        $response = $this->followingRedirects()->post('/attendance/rest-start');
         $response->assertSee('休憩中');
     }
 
@@ -205,10 +205,10 @@ class AttendanceTest extends TestCase
         // 出勤処理
         $this->followingRedirects()->post('/attendance/start');
         // 休憩入
-        $this->post('/attendance/restStart');
+        $this->post('/attendance/rest-start');
 
         // 休憩戻
-        $this->post('/attendance/restEnd');
+        $this->post('/attendance/rest-end');
 
         // 再度休憩入が可能
         $response = $this->get('/attendance');
@@ -226,11 +226,11 @@ class AttendanceTest extends TestCase
         // 出勤処理
         $this->followingRedirects()->post('/attendance/start');
         // 休憩入り
-        $response = $this->followingRedirects()->post('/attendance/restStart');
+        $response = $this->followingRedirects()->post('/attendance/rest-start');
         $response->assertSee('休憩戻');
 
         // 休憩戻
-        $response = $this->followingRedirects()->post('/attendance/restEnd');
+        $response = $this->followingRedirects()->post('/attendance/rest-end');
         $response->assertSee('勤務中');
     }
 
@@ -245,13 +245,13 @@ class AttendanceTest extends TestCase
         // 出勤処理
         $this->followingRedirects()->post('/attendance/start');
         // 休憩入
-        $this->post('/attendance/restStart');
+        $this->post('/attendance/rest-start');
 
         // 休憩戻
-        $this->post('/attendance/restEnd');
+        $this->post('/attendance/rest-end');
 
         // 再休憩入
-        $response = $this->followingRedirects()->post('/attendance/restStart');
+        $response = $this->followingRedirects()->post('/attendance/rest-start');
         $response->assertSee('休憩戻');
     }
 
@@ -268,12 +268,12 @@ class AttendanceTest extends TestCase
         // --- 休憩入 ---
         $restStart = now(); // 現在時刻
         Carbon::setTestNow($restStart);
-        $this->post('/attendance/restStart');
+        $this->post('/attendance/rest-start');
 
         // --- 休憩戻（1時間後に固定） ---
         $restEnd = $restStart->clone()->addHour();
         Carbon::setTestNow($restEnd);
-        $this->post('/attendance/restEnd');
+        $this->post('/attendance/rest-end');
 
         // 時刻固定解除
         Carbon::setTestNow();
@@ -743,7 +743,7 @@ class AttendanceTest extends TestCase
 
         $request = AttendanceRequest::where('attendance_id', $attendance->id)->first();
 
-        $response = $this->get('/stamp_correction_request/list');
+        $response = $this->get('/stamp-correction-request/list');
 
         $response->assertStatus(200);
         $response->assertSee($request->user->name);
@@ -779,7 +779,7 @@ class AttendanceTest extends TestCase
         $request = AttendanceRequest::where('attendance_id', $attendance->id)->first();
         $request->update(['state' => 2]);
 
-        $response = $this->get('/stamp_correction_request/list');
+        $response = $this->get('/stamp-correction-request/list');
 
         $response->assertStatus(200);
         $response->assertSee($request->user->name);
@@ -814,7 +814,7 @@ class AttendanceTest extends TestCase
 
         $request = AttendanceRequest::where('attendance_id', $attendance->id)->first();
 
-        $response = $this->get('/stamp_correction_request/list');
+        $response = $this->get('/stamp-correction-request/list');
 
         // 実際の遷移確認
         $response = $this->get('/attendance/detail/' . $attendance->id);
