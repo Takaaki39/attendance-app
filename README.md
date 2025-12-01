@@ -15,8 +15,9 @@ Laravel環境構築
 4. php artisan key:generate
 5. php artisan migrate
 6. php artisan db:seed
-7. exit
-8. ※windowsの場合 : sudo chmod -R 777 *
+7. php artisan storage:link
+8. exit
+9. ※windowsの場合 : sudo chmod -R 777 *
 
 テストアカウント
 1. 管理者

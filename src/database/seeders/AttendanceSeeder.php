@@ -16,7 +16,7 @@ class AttendanceSeeder extends Seeder
 
         // 今日から2か月前まで
         $startDate = Carbon::today()->subMonths(2);
-        $endDate   = Carbon::today();
+        $endDate   = Carbon::today()->subDay();   // 前日まで
 
         foreach ($users as $user) {
 

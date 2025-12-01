@@ -208,7 +208,6 @@ class AttendanceController extends Controller
             return redirect()->route('attendance.list')->with('success', '勤怠修正申請を送信しました。');
         } catch (Exception $e) {
             DB::rollBack();
-            dd($e);
             report($e);
             return back()->withErrors(['error' => '申請の送信に失敗しました。']);
         }

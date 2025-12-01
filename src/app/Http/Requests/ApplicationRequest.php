@@ -106,6 +106,9 @@ class ApplicationRequest extends FormRequest
                 } catch (\Exception $e) {
                     continue;
                 }
+                if ($rEnd != null && $rStart == null) {
+                    $validator->errors()->add("rest_start_time.$i", '休憩時間が不適切な値です');
+                }
 
                 // 休憩開始時間が出勤時間より前 or 退勤時間より後
                 if ($rStart->lt($start) || $rStart->gt($end)) {
@@ -131,6 +134,9 @@ class ApplicationRequest extends FormRequest
                     $nEnd   = $newEnd   ? Carbon::parse($newEnd)   : null;
                 } catch (\Exception $e) {
                     return;
+                }
+                if ($nEnd != null && $nStart == null) {
+                    $validator->errors()->add('new_rest_start_time', '休憩時間が不適切な値です');
                 }
 
                 // 休憩開始時間が出勤時間より前 or 退勤時間より後

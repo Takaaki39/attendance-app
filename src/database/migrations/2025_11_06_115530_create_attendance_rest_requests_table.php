@@ -24,8 +24,8 @@ class CreateAttendanceRestRequestsTable extends Migration
                 ->constrained('attendance_rests') // attendance_rests(id) を参照
                 ->onDelete('cascade');
 
-            $table->timestamp('start_time');
-            $table->timestamp('end_time');
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->timestamps();
         });
     }
