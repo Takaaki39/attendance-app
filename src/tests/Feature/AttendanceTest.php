@@ -40,8 +40,8 @@ class AttendanceTest extends TestCase
         $user = $this->actingAsVerifiedUser();
 
         Carbon::setTestNow(Carbon::now());
-        $now = now()->format('Y年m月d日');
 
+        $now = now()->isoFormat('YYYY年M月D日(dd)');
         $response = $this->get('/attendance');
 
         $response->assertStatus(200);
@@ -358,18 +358,24 @@ class AttendanceTest extends TestCase
     {
         $user = $this->actingAsVerifiedUser();
 
+        $date1 = now()->setDay(rand(1, now()->daysInMonth))->toDateString();
         $attendance1 = Attendance::factory()->create([
             'user_id' => $user->id,
-            'date' => now()->subDays(1)->toDateString(),
-            'start_time' => now()->subDays(1)->setTime(9, 0),
-            'end_time' => now()->subDays(1)->setTime(18, 0),
+            'date' => $date1,
+            'start_time' => Carbon::parse($date1)->setTime(9, 0),
+            'end_time' => Carbon::parse($date1)->setTime(18, 0),
         ]);
 
+        $date2 = now()->setDay(rand(1, now()->daysInMonth))->toDateString();
+        // 2つの日付が被らないように調整
+        while ($date2 === $date1) {
+            $date2 = now()->setDay(rand(1, now()->daysInMonth))->toDateString();
+        }
         $attendance2 = Attendance::factory()->create([
             'user_id' => $user->id,
-            'date' => now()->toDateString(),
-            'start_time' => now()->setTime(9, 30),
-            'end_time' => now()->setTime(18, 30),
+            'date' => $date2,
+            'start_time' => Carbon::parse($date2)->setTime(9, 30),
+            'end_time' => Carbon::parse($date2)->setTime(18, 30),
         ]);
 
         $response = $this->get(route('attendance.list'));
