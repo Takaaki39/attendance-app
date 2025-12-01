@@ -652,7 +652,7 @@ class AttendanceTest extends TestCase
             'end_time'   => '18:00'
         ]);
 
-        $response = $this->followingRedirects()->post("/attendance/request", [
+        $response = $this->post("/attendance/request", [
             'year'                  => '2025年',
             'day'                   => '11月05日',
             'attendance_id'         => $attendance->id,
