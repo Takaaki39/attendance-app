@@ -8,7 +8,7 @@ Route::get('/', function () {
     return redirect('/attendance');
 });
 Route::get('/admin', function () {
-    return redirect('/admin/attendance');
+    return redirect('/admin/attendance/list');
 });
 
 // ---------------------------------------------------

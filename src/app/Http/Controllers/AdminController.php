@@ -244,9 +244,6 @@ class AdminController extends Controller
                 'notes'      => $requestData->notes,
                 'date'       => $requestData->start_time->copy()->startOfDay(),
             ]);
-
-            // 既存休憩を削除して再登録（シンプル）
-            AttendanceRest::where('attendance_id', $attendance->id)->delete();
         } else {
             // 新規登録
             $attendance = Attendance::create([
@@ -260,11 +257,19 @@ class AdminController extends Controller
 
         // === 休憩テーブルの処理 ===
         foreach ($requestData->restRequests as $restReq) {
-            AttendanceRest::create([
-                'attendance_id' => $attendance->id,
-                'start_time'    => $restReq->start_time,
-                'end_time'      => $restReq->end_time,
-            ]);
+            //rest_idがnullの場合は新規登録、そうでない場合は更新
+            if ($restReq->rest_id) {
+                AttendanceRest::where('id', $restReq->rest_id)->update([
+                    'start_time' => $restReq->start_time,
+                    'end_time'   => $restReq->end_time,
+                ]);
+            } else {
+                AttendanceRest::create([
+                    'attendance_id' => $attendance->id,
+                    'start_time'    => $restReq->start_time,
+                    'end_time'      => $restReq->end_time,
+                ]);
+            }
         }
 
         // === 申請状態を承認済みに変更 ===
