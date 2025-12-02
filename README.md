@@ -53,7 +53,9 @@ Laravel環境構築
 ![alt text](src/docs/attendance.png)
 
 ## URL
-- 開発環境：http://localhost
+- 開発環境：
+- 一般ユーザー：http://localhost/attendance
+- 管理者：http://localhost/admin/attendance
 - phpMyAdmin：http://localhost:8080/
 - MailHog：http://localhost:8025/
 ##
